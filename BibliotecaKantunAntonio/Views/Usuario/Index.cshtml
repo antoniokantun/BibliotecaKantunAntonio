@@ -1,0 +1,66 @@
+﻿@model IEnumerable<BibliotecaKantunAntonio.Models.Domain.Usuario>
+
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div>
+        @await Html.PartialAsync("_Sidebar")
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="content flex-grow-1 p-3">
+        <h1>Dashboard</h1>
+
+        <div class="d-flex justify-content-end mb-3">
+            <a asp-action="Crear" asp-controller="Usuario" class="btn btn-success">
+                <i class="fa-solid fa-user"></i> Nuevo
+            </a>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h2 class="m-0">Lista de usuarios</h2>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    @if (Model.Any())
+                    {
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(x => x.Nombre)</th>
+                                    <th>@Html.DisplayNameFor(x => x.UserName)</th>
+                                    <th>@Html.DisplayNameFor(x => x.Password)</th>
+                                    <th>@Html.DisplayNameFor(x => x.Roles.Nombre)</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var Item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(x => Item.Nombre)</td>
+                                        <td>@Html.DisplayFor(x => Item.UserName)</td>
+                                        <td>@Html.DisplayFor(x => Item.Password)</td>
+                                        <td>@Html.DisplayFor(x => Item.Roles.Nombre)</td>
+                                        <td>
+                                            @* <a class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
+                                            <a class="btn btn-danger"><i class="fa-solid fa-trash"></i> Eliminar</a> *@
+                                            <a class=" btn btn-warning" asp-action="Editar" asp-route-id=@Item.FkRol><i class="fa-solid fa-pen-to-square"></i> Editar</a>
+                                            <a class=" btn btn-danger" asp-action="" asp-route-id=><i class="fa-solid fa-trash"></i> Eliminar</a>
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>No hay registros</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+﻿<div class="sidebar">
+    <h2 class="text-white">Menú</h2>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link text-white" asp-controller="Home" asp-action="Index">🏠 Inicio</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-white" asp-controller="Usuario" asp-action="Index">👥 Usuarios</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-white" asp-controller="Libros" asp-action="Index">📚 Libros</a>
+        </li>
+    </ul>
+</div>
+
+<style>
+    .sidebar {
+        background: #264653;
+        height: 100vh;
+        width: 250px;
+        padding: 20px;
+    }
+
+    .nav-link {
+        font-size: 1.2rem;
+        padding: 10px;
+    }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+</style>
