@@ -2,6 +2,7 @@
 using BibliotecaKantunAntonio.Models.Domain;
 using BibliotecaKantunAntonio.Services.IServices;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 
 namespace BibliotecaKantunAntonio.Services.Services
 {
@@ -12,11 +13,11 @@ namespace BibliotecaKantunAntonio.Services.Services
         {
             _context = context;
         }
-        public List<Usuario>ObtenerUsuarios()
+        public async Task<List<Usuario>>ObtenerUsuarios()
         {
             try
             {
-                var result = _context.Usuarios.Include(x => x.Roles).ToList();
+                var result = await _context.Usuarios.Include(x => x.Roles).ToListAsync();
                 return result;
             }
             catch (Exception ex)
@@ -25,11 +26,12 @@ namespace BibliotecaKantunAntonio.Services.Services
             }
         }
 
-        public Usuario ObtenerUsuario(int id)
+        public async Task<Usuario> ObtenerUsuario(int id)
         {
             try
             {
-                Usuario usuario = _context.Usuarios.Find(id);
+                var usuario = await _context.Usuarios.Include(x => x.Roles)
+                                                          .FirstOrDefaultAsync(x => x.PkUsuario == id);
 
                 return usuario;
 
@@ -42,7 +44,7 @@ namespace BibliotecaKantunAntonio.Services.Services
         }
 
 
-        public bool CrearUsuario(Usuario request)
+        public async Task<bool> CrearUsuario(Usuario request)
         {
             try
             {
@@ -52,11 +54,11 @@ namespace BibliotecaKantunAntonio.Services.Services
                     Apellido = request.Apellido,
                     UserName = request.UserName,
                     Password = request.Password,
-                    FkRol = 1
+                    FkRol = request.FkRol,
                 };
 
                 _context.Usuarios.Add(usuario);
-                var result = _context.SaveChanges();
+                var result = await _context.SaveChangesAsync();
 
 
                 if (result > 0)
@@ -70,5 +72,57 @@ namespace BibliotecaKantunAntonio.Services.Services
                 throw new Exception("Hubo un error" + ex.Message);
             }
         }
+
+
+        public async Task<bool> ActualizarUsuario(Usuario request)
+        {
+            try
+            {
+                var usuario = await _context.Usuarios
+                    .FirstOrDefaultAsync(u => u.PkUsuario == request.PkUsuario);
+
+                if (usuario == null)
+                    return false;
+
+                // Actualizar los campos
+                usuario.Nombre = request.Nombre;
+                usuario.Apellido = request.Apellido;
+                usuario.UserName = request.UserName;
+                usuario.FkRol = request.FkRol;
+
+                // Solo actualizar la contraseña si se proporciona una nueva
+                if (!string.IsNullOrEmpty(request.Password))
+                {
+                    usuario.Password = request.Password;
+                }
+
+                _context.Update(usuario);
+                var result = await _context.SaveChangesAsync();
+                return result > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al actualizar usuario: {ex.Message}");
+            }
+        }
+
+        public async Task<bool> EliminarUsuario(int id)
+        {
+            try
+            {
+                var usuario = await _context.Usuarios.FindAsync(id);
+                if (usuario == null)
+                    return false;
+
+                _context.Usuarios.Remove(usuario);
+                var result = await _context.SaveChangesAsync();
+                return result > 0;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Hubo un error al eliminar: " + ex.Message);
+            }
+        }
+
     }
 }

@@ -10,11 +10,11 @@ namespace BibliotecaKantunAntonio.Models.Domain
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string UserName { get; set; }
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         [ForeignKey("Roles")]
         public int FkRol { get; set; }
 
-        public Rol Roles { get; set; }
+        public virtual Rol? Roles { get; set; }
     }
 }

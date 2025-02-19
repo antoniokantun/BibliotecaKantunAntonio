@@ -1,33 +1,45 @@
-﻿<div class="sidebar">
-    <h2 class="text-white">Menú</h2>
-    <ul class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link text-white" asp-controller="Home" asp-action="Index">🏠 Inicio</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" asp-controller="Usuario" asp-action="Index">👥 Usuarios</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" asp-controller="Libros" asp-action="Index">📚 Libros</a>
-        </li>
-    </ul>
+﻿<div class="fixed md:relative h-screen w-64 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out bg-slate-800 text-white p-6 shadow-lg">
+    <h2 class="text-2xl font-bold mb-6">Menú</h2>
+    <nav>
+        <ul class="space-y-4">
+            <li>
+                <a asp-controller="Home" asp-action="Index"
+                   class="flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-700 transition-colors">
+                    <span class="text-xl">🏠</span>
+                    <span>Inicio</span>
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Usuario" asp-action="Index"
+                   class="flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-700 transition-colors">
+                    <span class="text-xl">👥</span>
+                    <span>Usuarios</span>
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Libros" asp-action="Index"
+                   class="flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-700 transition-colors">
+                    <span class="text-xl">📚</span>
+                    <span>Libros</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
-<style>
-    .sidebar {
-        background: #264653;
-        height: 100vh;
-        width: 250px;
-        padding: 20px;
-    }
+<!-- Botón para mostrar/ocultar sidebar en móviles -->
+<button id="sidebarToggle"
+        class="fixed md:hidden bottom-4 right-4 bg-slate-800 text-white p-3 rounded-full shadow-lg z-50">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+</button>
 
-    .nav-link {
-        font-size: 1.2rem;
-        padding: 10px;
-    }
+<script>
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
 
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-        }
-</style>
+    sidebarToggle?.addEventListener('click', () => {
+        sidebar.classList.toggle('-translate-x-full');
+    });
+</script>

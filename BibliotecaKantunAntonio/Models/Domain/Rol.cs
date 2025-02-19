@@ -6,7 +6,7 @@ namespace BibliotecaKantunAntonio.Models.Domain
     {
         [Key]
         public int PkRol { get; set; }
-        public string Nombre { get; set; }
+        public required string Nombre { get; set; }
 
     }
 }

@@ -4,10 +4,11 @@ namespace BibliotecaKantunAntonio.Services.IServices
 {
     public interface IUsuarioServices
     {
-        public List<Usuario> ObtenerUsuarios();
+        Task<List<Usuario>> ObtenerUsuarios();
+        Task<bool> CrearUsuario(Usuario request);
+        Task<Usuario> ObtenerUsuario(int id);
+        Task<bool> ActualizarUsuario(Usuario request);
+        Task<bool> EliminarUsuario(int id);
 
-        public bool CrearUsuario(Usuario request);
-
-        public Usuario ObtenerUsuario(int id);
     }
 }
