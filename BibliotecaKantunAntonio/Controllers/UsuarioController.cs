@@ -2,6 +2,8 @@
 using BibliotecaKantunAntonio.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing.Constraints;
+using System.Runtime.CompilerServices;
 
 namespace BibliotecaKantunAntonio.Controllers
 {
@@ -9,6 +11,7 @@ namespace BibliotecaKantunAntonio.Controllers
     {
         private readonly IUsuarioServices _usuarioServices;
         private readonly IRolServices _rolServices;
+        
 
         public UsuarioController(IUsuarioServices usuarioServices, IRolServices rolServices)
         {
@@ -116,6 +119,13 @@ namespace BibliotecaKantunAntonio.Controllers
             ModelState.AddModelError("", "No se pudo eliminar el usuario.");
             var usuario = await _usuarioServices.ObtenerUsuario(id);
             return View(usuario);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> EliminarUsuario(int id)
+        {
+            bool result = await _usuarioServices.EliminarUsuario(id);
+            return Json(new { succes = result });
         }
 
     }
